@@ -9,15 +9,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import kz.zhb.elm.State as ElmState
 
 /** val state by viewModel.collectState() */
 @Composable
-fun <S : Any> ElmViewModel<*, S, *, *>.collectState(): State<S> =
-    state.collectAsStateWithLifecycle()
+fun <S : ElmState> ElmViewModel<*, S, *, *>.collectState(): State<S> = state.collectAsStateWithLifecycle()
 
 /** Эффекты собираются только когда экран STARTED; при повороте ничего не теряется. */
 @Composable
-fun <Ef : Any> ElmViewModel<*, *, Ef, *>.CollectEffects(onEffect: suspend (Ef) -> Unit) {
+fun <Ef : Effect> ElmViewModel<*, *, Ef, *>.CollectEffects(onEffect: suspend (Ef) -> Unit) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val currentOnEffect by rememberUpdatedState(onEffect)
     LaunchedEffect(this, lifecycleOwner) {

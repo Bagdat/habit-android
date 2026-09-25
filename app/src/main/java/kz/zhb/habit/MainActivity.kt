@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
 import kz.zhb.habit.ui.theme.HabitandroidTheme
+import kz.zhb.main.impl.mainEntry
+import kz.zhb.navigation.NavigationHost
+import kz.zhb.onboarding.impl.onboardingEntry
+import kz.zhb.splash.api.SplashKey
+import kz.zhb.splash.impl.splashEntry
 
 class MainActivity : ComponentActivity() {
 
@@ -18,8 +20,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             HabitandroidTheme {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    CounterScreen()
+                NavigationHost(start = SplashKey) { navigator ->
+                    splashEntry(navigator)
+                    onboardingEntry(navigator)
+                    mainEntry(navigator)
                 }
             }
         }

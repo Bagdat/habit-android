@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -18,13 +17,11 @@ import kotlinx.coroutines.launch
  * ViewModel = Store + Reducer + Actor.
  *
  * Ev — события (удобно делить на Ui и Internal)
- * S  — иммутабельное состояние экрана
+ * S — иммутабельное состояние экрана
  * Ef — одноразовые эффекты (навигация, снекбар)
- * C  — команды на побочную работу (сеть, БД)
+ * C — команды на побочную работу (сеть, БД)
  */
-abstract class ElmViewModel<Ev : Any, S : Any, Ef : Any, C : Any>(
-    initialState: S,
-) : ViewModel() {
+abstract class ElmViewModel<Ev : Event, S : State, Ef : Effect, C : Command>(initialState: S) : ViewModel() {
 
     private val _state = MutableStateFlow(initialState)
     val state: StateFlow<S> = _state.asStateFlow()
@@ -71,9 +68,6 @@ abstract class ElmViewModel<Ev : Any, S : Any, Ef : Any, C : Any>(
             job.invokeOnCompletion { if (keyedJobs[key] === job) keyedJobs.remove(key) }
         }
     }
-
-    /** Команда с одним результатом: single { Event.Loaded(repo.load()) } */
-    protected fun single(block: suspend () -> Ev): Flow<Ev> = flow { emit(block()) }
 
     /** Прогнать reducer без запуска команд и без изменения состояния — для unit-тестов. */
     @VisibleForTesting

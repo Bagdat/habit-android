@@ -1,0 +1,20 @@
+import com.android.build.api.dsl.CommonExtension
+import org.gradle.api.JavaVersion
+
+internal const val COMPILE_SDK = 37
+internal const val TARGET_SDK = 37
+internal const val MIN_SDK = 26
+
+/** Общая настройка для application и library модулей. */
+internal fun CommonExtension.configureAndroid() {
+    compileSdk = COMPILE_SDK
+
+    defaultConfig.minSdk = MIN_SDK
+
+    compileOptions.sourceCompatibility = JavaVersion.VERSION_17
+    compileOptions.targetCompatibility = JavaVersion.VERSION_17
+
+    packaging.resources.excludes += "META-INF/*"
+
+    buildFeatures.buildConfig = true
+}
