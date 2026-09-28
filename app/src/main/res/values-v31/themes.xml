@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        Android 12+ всегда показывает системный splash до первого кадра — отключить его нельзя.
+        Делаем его невидимым: без иконки и цветом окна, чтобы сразу "появлялся" Compose SplashScreen.
+    -->
+    <style name="Theme.Habitandroid" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:windowSplashScreenBackground">@color/window_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+    </style>
+</resources>
