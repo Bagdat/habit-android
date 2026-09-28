@@ -18,13 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kz.zhb.elm.CollectEffects
 import kz.zhb.elm.collectState
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CounterScreen(
-    viewModel: CounterViewModel = viewModel(),
+    viewModel: CounterViewModel = koinViewModel(),
     onOnboarding: () -> Unit
 ) {
     val context = LocalContext.current

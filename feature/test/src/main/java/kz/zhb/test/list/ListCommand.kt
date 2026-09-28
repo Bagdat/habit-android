@@ -2,5 +2,6 @@ package kz.zhb.test.list
 
 import kz.zhb.elm.Command
 
-interface ListCommand : Command {
+sealed interface ListCommand : Command {
+    data object Load : ListCommand
 }

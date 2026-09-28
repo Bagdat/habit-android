@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.habit.android.application)
     alias(libs.plugins.habit.android.compose)
+    alias(libs.plugins.habit.koin)
 }
 
 android {

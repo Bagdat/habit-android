@@ -1,6 +1,8 @@
 package kz.zhb.test.list
 
 import kz.zhb.elm.Effect
+import kz.zhb.test.model.Item
 
-interface ListEffect : Effect {
+sealed interface ListEffect : Effect {
+    data class OpenDetail(val item: Item) : ListEffect
 }

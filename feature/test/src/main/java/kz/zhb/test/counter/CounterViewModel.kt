@@ -6,7 +6,7 @@ import kz.zhb.elm.ElmViewModel
 import kz.zhb.elm.Update
 
 class CounterViewModel(
-    private val repository: CounterRepository = CounterRepositoryImpl()
+    private val repository: CounterRepository,
 ) : ElmViewModel<CounterEvents, CounterState, CounterEffect, CounterCommand>(initialState = CounterState()) {
 
     init {

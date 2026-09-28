@@ -7,6 +7,8 @@ import kz.zhb.test.counter.CounterScreen
 import kz.zhb.test.detail.DetailScreen
 import kz.zhb.test.info.InfoScreen
 import kz.zhb.test.list.ListScreen
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 fun EntryProviderScope<NavKey>.counterEntity(navigator: Navigator) {
     entry<TestKey> {
@@ -14,11 +16,14 @@ fun EntryProviderScope<NavKey>.counterEntity(navigator: Navigator) {
     }
 
     entry<ListKey> {
-        ListScreen { navigator.navigate(DetailKey) }
+        ListScreen(onItemClick = { item -> navigator.navigate(DetailKey(item)) })
     }
 
-    entry<DetailKey> {
-        DetailScreen { navigator.navigate(InfoKey) }
+    entry<DetailKey> { key ->
+        DetailScreen(
+            viewModel = koinViewModel { parametersOf(key.item) },
+            onNext = { navigator.navigate(InfoKey) },
+        )
     }
 
     entry<InfoKey> {
