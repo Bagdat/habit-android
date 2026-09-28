@@ -1,4 +1,4 @@
-package kz.zhb.test
+package kz.zhb.test.counter
 
 import kz.zhb.elm.Event
 
@@ -7,6 +7,7 @@ sealed interface CounterEvents : Event {
         data object Init : UI
         data object Add : UI
         data object Subtract : UI
+        data object Onboarding : UI
     }
 
     sealed interface Internal : CounterEvents {

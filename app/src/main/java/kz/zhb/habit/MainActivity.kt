@@ -5,11 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import kz.zhb.habit.ui.theme.HabitandroidTheme
-import kz.zhb.main.impl.mainEntry
 import kz.zhb.navigation.NavigationHost
-import kz.zhb.onboarding.impl.onboardingEntry
-import kz.zhb.splash.api.SplashKey
-import kz.zhb.splash.impl.splashEntry
+import kz.zhb.test.TestKey
+import kz.zhb.test.counterEntity
 
 class MainActivity : ComponentActivity() {
 
@@ -20,10 +18,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             HabitandroidTheme {
-                NavigationHost(start = SplashKey) { navigator ->
-                    splashEntry(navigator)
-                    onboardingEntry(navigator)
-                    mainEntry(navigator)
+                NavigationHost(start = TestKey) { navigator ->
+                    counterEntity(navigator)
                 }
             }
         }

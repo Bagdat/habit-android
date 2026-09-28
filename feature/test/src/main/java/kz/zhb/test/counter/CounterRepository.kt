@@ -1,4 +1,4 @@
-package kz.zhb.test
+package kz.zhb.test.counter
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

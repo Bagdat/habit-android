@@ -12,7 +12,5 @@ dependencies {
 
     implementation(project(":core:navigation"))
 
-    implementation(project(":feature:splash:splash-impl"))
-    implementation(project(":feature:onboarding:onboarding-impl"))
-    implementation(project(":feature:main:main-impl"))
+    implementation(project(":feature:test"))
 }

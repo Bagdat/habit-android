@@ -1,4 +1,4 @@
-package kz.zhb.test
+package kz.zhb.test.counter
 
 import kz.zhb.elm.Command
 

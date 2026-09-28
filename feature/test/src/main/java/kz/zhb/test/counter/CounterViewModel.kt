@@ -1,4 +1,4 @@
-package kz.zhb.test
+package kz.zhb.test.counter
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -31,6 +31,10 @@ class CounterViewModel(
             is CounterEvents.Internal.Loaded -> {
                 state { copy(isLoading = false) }
                 effect(CounterEffect.ShowToast(event.message))
+            }
+
+            CounterEvents.UI.Onboarding -> {
+                effect(CounterEffect.NavigateToOnboarding)
             }
         }
     }

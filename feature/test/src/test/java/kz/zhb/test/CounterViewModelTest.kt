@@ -12,6 +12,12 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import kz.zhb.test.counter.CounterCommand
+import kz.zhb.test.counter.CounterEffect
+import kz.zhb.test.counter.CounterEvents
+import kz.zhb.test.counter.CounterRepository
+import kz.zhb.test.counter.CounterState
+import kz.zhb.test.counter.CounterViewModel
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

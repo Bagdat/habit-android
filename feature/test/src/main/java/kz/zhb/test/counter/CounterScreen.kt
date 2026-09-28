@@ -1,4 +1,4 @@
-package kz.zhb.test
+package kz.zhb.test.counter
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +23,10 @@ import kz.zhb.elm.CollectEffects
 import kz.zhb.elm.collectState
 
 @Composable
-fun CounterScreen(viewModel: CounterViewModel = viewModel()) {
+fun CounterScreen(
+    viewModel: CounterViewModel = viewModel(),
+    onOnboarding: () -> Unit
+) {
     val context = LocalContext.current
 
     val state by viewModel.collectState()
@@ -31,6 +34,7 @@ fun CounterScreen(viewModel: CounterViewModel = viewModel()) {
     viewModel.CollectEffects { effect ->
         when (effect) {
             is CounterEffect.ShowToast -> Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+            CounterEffect.NavigateToOnboarding -> onOnboarding()
         }
     }
 
@@ -50,6 +54,10 @@ fun CounterScreen(viewModel: CounterViewModel = viewModel()) {
         }
 
         Spacer(Modifier.height(16.dp))
+
+        Button(onClick = { viewModel.accept(CounterEvents.UI.Onboarding) }) {
+            Text("Go To Next")
+        }
 
         if (state.isLoading) {
             Text("Loading...")

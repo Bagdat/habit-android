@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.habit.android.compose)
     alias(libs.plugins.habit.lifecycle)
     alias(libs.plugins.habit.coroutines)
+    alias(libs.plugins.habit.feature.api)
 }
 
 android {
