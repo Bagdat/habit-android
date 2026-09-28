@@ -1,6 +1,8 @@
 package kz.zhb.habit
 
 import android.app.Application
+import kz.zhb.network.impl.NetworkModule
+import kz.zhb.prayer.impl.di.PrayerModule
 import kz.zhb.test.di.testModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -12,7 +14,11 @@ class HabitApp : Application() {
 
         startKoin {
             androidContext(this@HabitApp)
-            modules(testModule)
+            modules(
+                NetworkModule,
+                PrayerModule,
+                testModule
+            )
         }
     }
 }

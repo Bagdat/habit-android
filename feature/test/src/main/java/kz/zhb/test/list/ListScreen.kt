@@ -28,6 +28,7 @@ fun ListScreen(
     viewModel.CollectEffects { effect ->
         when (effect) {
             is ListEffect.OpenDetail -> onItemClick(effect.item)
+            is ListEffect.ShowError -> println(effect.message)
         }
     }
 

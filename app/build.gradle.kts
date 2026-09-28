@@ -12,6 +12,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     implementation(project(":core:navigation"))
+    implementation(project(":core:network:network-impl"))
 
     implementation(project(":feature:test"))
+    implementation(project(":feature:prayer:prayer-impl"))
 }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.habit.android.library)
     alias(libs.plugins.habit.network)
+    alias(libs.plugins.habit.koin)
 }
 
 android {
@@ -8,5 +9,5 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":core:network:network-api"))
 }

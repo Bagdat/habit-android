@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Сливается в манифест приложения: сеть нужна всем, кто подключает network-impl -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

@@ -1,4 +1,4 @@
-package kz.zhb.network.api.models
+package kz.zhb.network.api
 
 sealed class AsyncResult<out T : Any> {
     class Success<out T : Any>(val data: T) : AsyncResult<T>()

@@ -2,7 +2,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-/** Сеть: Retrofit + OkHttp + kotlinx.serialization, Chucker только в debug. */
+/** Сеть: Retrofit + OkHttp + kotlinx.serialization/Gson, Chucker только в debug. */
 class NetworkConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
@@ -11,6 +11,8 @@ class NetworkConventionPlugin : Plugin<Project> {
             add("api", lib("retrofit"))
             add("api", lib("retrofit-converter-kotlinx-serialization"))
             add("api", lib("kotlinx-serialization-json"))
+            add("api", lib("retrofit-converter-gson"))
+            add("api", lib("gson"))
 
             add("api", platform(lib("okhttp-bom")))
             add("api", lib("okhttp"))
