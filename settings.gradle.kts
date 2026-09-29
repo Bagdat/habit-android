@@ -29,6 +29,7 @@ include(":app")
 
 include(":core:elm")
 include(":core:navigation")
+include(":core:permissions")
 include(":core:network")
 include(":core:network:network-api")
 include(":core:network:network-impl")

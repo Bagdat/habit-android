@@ -13,4 +13,5 @@ android {
 
 dependencies {
     implementation(project(":core:elm"))
+    implementation(project(":core:permissions"))
 }
