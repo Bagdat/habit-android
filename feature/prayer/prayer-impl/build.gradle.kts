@@ -15,4 +15,5 @@ android {
 
 dependencies {
     implementation(project(":core:network:network-api"))
+    implementation(project(":core:database"))
 }

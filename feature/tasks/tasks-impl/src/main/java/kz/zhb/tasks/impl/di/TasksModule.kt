@@ -5,5 +5,5 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val TasksModule = module {
-    viewModel { TasksViewModel(get()) }
+    viewModel { TasksViewModel(syncPrayerSchedule = get(), observePrayerDay = get()) }
 }

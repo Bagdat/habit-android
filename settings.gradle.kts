@@ -28,6 +28,7 @@ rootProject.name = "habit-android"
 include(":app")
 
 include(":core:elm")
+include(":core:database")
 include(":core:navigation")
 include(":core:permissions")
 include(":core:network")

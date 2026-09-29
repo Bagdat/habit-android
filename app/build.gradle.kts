@@ -13,6 +13,7 @@ dependencies {
 
     implementation(project(":core:elm"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:database"))
     implementation(project(":core:network:network-impl"))
 
     implementation(project(":feature:test"))

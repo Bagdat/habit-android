@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.map
 import kz.zhb.elm.ElmViewModel
 import kz.zhb.elm.Update
 import kz.zhb.network.api.AsyncResult
-import kz.zhb.prayer.api.usecase.GetSchedulersUseCase
+import kz.zhb.prayer.api.usecase.SyncPrayerScheduleUseCase
 import kz.zhb.test.list.ListEffect.*
 
-class ListViewModel(private val getSchedulersUseCase: GetSchedulersUseCase) :
+class ListViewModel(private val syncPrayerScheduleUseCase: SyncPrayerScheduleUseCase) :
     ElmViewModel<ListEvents, ListState, ListEffect, ListCommand>(initialState = ListState()) {
 
     init {
@@ -30,7 +30,7 @@ class ListViewModel(private val getSchedulersUseCase: GetSchedulersUseCase) :
     }
 
     override fun execute(command: ListCommand): Flow<ListEvents> = when (command) {
-        ListCommand.Load -> getSchedulersUseCase.invoke(43.217705, 76.340629).map { result ->
+        ListCommand.Load -> syncPrayerScheduleUseCase.invoke(43.217705, 76.340629).map { result ->
             when (result) {
                 is AsyncResult.Success -> ListEvents.Internal.Loaded(emptyList())
                 is AsyncResult.Failure -> ListEvents.Internal.Failure(result.message)

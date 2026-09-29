@@ -3,13 +3,11 @@ package kz.zhb.prayer.api.model
 import java.time.LocalDate
 import java.time.LocalTime
 
-/** Расписание намаза на год для ближайшего к координатам населённого пункта. */
-data class PrayerSchedule(
+/** Расписание на день для города, по которому последний раз синхронизировались. */
+data class PrayerDaySchedule(
     val city: String,
-    val days: List<PrayerDay>,
-) {
-    fun dayOf(date: LocalDate): PrayerDay? = days.firstOrNull { it.date == date }
-}
+    val day: PrayerDay,
+)
 
 data class PrayerDay(
     val date: LocalDate,

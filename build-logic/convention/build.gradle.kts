@@ -9,6 +9,7 @@ java {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
 }
 
 gradlePlugin {
@@ -56,6 +57,10 @@ gradlePlugin {
         register("featureImpl") {
             id = libs.plugins.habit.feature.impl.get().pluginId
             implementationClass = "FeatureImplConventionPlugin"
+        }
+        register("room") {
+            id = libs.plugins.habit.room.get().pluginId
+            implementationClass = "RoomConventionPlugin"
         }
     }
 }

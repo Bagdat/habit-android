@@ -38,10 +38,10 @@ internal fun TasksScreen(viewModel: TasksViewModel = koinViewModel()) {
     val location = rememberPermissionState(Permission.Location)
     var attempt by remember { mutableIntStateOf(0) }
 
-    // Сработает сразу, если доступ уже был, после выдачи в диалоге/настройках и по «Повторить».
-    // needsPrayerSchedule защищает от повторной загрузки при повороте экрана.
+    // Синхронизация при открытии: сработает сразу, если доступ уже был, после выдачи доступа и по «Повторить».
+    // В сеть use case пойдёт, только если сменился город или год. needsSync — защита от повтора при повороте.
     LaunchedEffect(location.isGranted, attempt) {
-        if (!location.isGranted || !state.needsPrayerSchedule) return@LaunchedEffect
+        if (!location.isGranted || !state.needsSync) return@LaunchedEffect
         val point = context.currentLocation()
         viewModel.accept(
             if (point != null) TasksEvents.UI.LoadPrayerSchedulers(point.latitude, point.longitude)
@@ -56,20 +56,16 @@ internal fun TasksScreen(viewModel: TasksViewModel = koinViewModel()) {
     ) {
         Text("Tasks", style = MaterialTheme.typography.headlineMedium)
 
-        if (!location.isGranted) {
-            LocationPermission(location)
-        } else {
-            PrayerSchedule(state, onRetry = { attempt++ })
-        }
+        // Расписание из БД показываем всегда, даже без доступа к геолокации и без сети
+        PrayerSchedule(state, isLocationGranted = location.isGranted, onRetry = { attempt++ })
+        if (!location.isGranted) LocationPermission(location)
     }
 }
 
 @Composable
-private fun PrayerSchedule(state: TasksState, onRetry: () -> Unit) {
+private fun PrayerSchedule(state: TasksState, isLocationGranted: Boolean, onRetry: () -> Unit) {
     val day = state.prayerDay
     when {
-        state.isLoading -> CircularProgressIndicator()
-
         day != null -> Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             state.city?.let { Text(it, style = MaterialTheme.typography.titleMedium) }
             PrayerRow("Фаджр", day.fajr)
@@ -80,12 +76,15 @@ private fun PrayerSchedule(state: TasksState, onRetry: () -> Unit) {
             PrayerRow("Иша", day.isha)
         }
 
-        state.error != null -> {
+        // Без доступа к геолокации синхронизировать нечем — ниже просьба о доступе
+        !isLocationGranted -> Unit
+
+        state.error != null && !state.isSyncing -> {
             Text(state.error, textAlign = TextAlign.Center)
             Button(onClick = onRetry) { Text("Повторить") }
         }
 
-        // Пока ищем координаты — до первого события в ViewModel
+        // Первая синхронизация: ищем координаты или качаем расписание
         else -> CircularProgressIndicator()
     }
 }
