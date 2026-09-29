@@ -16,5 +16,10 @@ dependencies {
     implementation(project(":core:network:network-impl"))
 
     implementation(project(":feature:test"))
+    implementation(project(":feature:splash:splash-impl"))
+    implementation(project(":feature:onboarding:onboarding-impl"))
+    implementation(project(":feature:main:main-impl"))
     implementation(project(":feature:prayer:prayer-impl"))
+    implementation(project(":feature:tasks:tasks-impl"))
+    implementation(project(":feature:settings:settings-impl"))
 }

@@ -2,15 +2,56 @@ package kz.zhb.main.impl
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import kz.zhb.navigation.Entries
+import kz.zhb.navigation.Navigator
 
+/**
+ * Контейнер табов. Экраны табов приходят через [tabs] (регистрируются в app), поэтому main-impl
+ * знает только ключи из чужих -api. Состояние каждого таба сохраняется при переключении,
+ * ViewModel табов живут в ViewModelStore экрана Main.
+ */
 @Composable
-internal fun MainScreen() {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Main", style = MaterialTheme.typography.headlineMedium)
+internal fun MainScreen(navigator: Navigator, tabs: Entries) {
+    var selected by rememberSaveable { mutableStateOf(MainTab.Tasks) }
+    val provider = remember(navigator, tabs) { entryProvider<NavKey> { tabs(navigator) } }
+    val stateHolder = rememberSaveableStateHolder()
+
+    Scaffold(
+        bottomBar = {
+            NavigationBar {
+                MainTab.entries.forEach { tab ->
+                    NavigationBarItem(
+                        selected = tab == selected,
+                        onClick = { selected = tab },
+                        icon = { Icon(painterResource(tab.icon), contentDescription = null) },
+                        label = { Text(stringResource(tab.label)) },
+                    )
+                }
+            }
+        },
+    ) { padding ->
+        Box(Modifier.fillMaxSize().padding(padding)) {
+            stateHolder.SaveableStateProvider(selected.name) {
+                provider(selected.key).Content()
+            }
+        }
     }
 }

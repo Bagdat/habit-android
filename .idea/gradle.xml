@@ -40,9 +40,15 @@
             <option value="$PROJECT_DIR$/feature/prayer" />
             <option value="$PROJECT_DIR$/feature/prayer/prayer-api" />
             <option value="$PROJECT_DIR$/feature/prayer/prayer-impl" />
+            <option value="$PROJECT_DIR$/feature/settings" />
+            <option value="$PROJECT_DIR$/feature/settings/settings-api" />
+            <option value="$PROJECT_DIR$/feature/settings/settings-impl" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/splash/splash-api" />
             <option value="$PROJECT_DIR$/feature/splash/splash-impl" />
+            <option value="$PROJECT_DIR$/feature/tasks" />
+            <option value="$PROJECT_DIR$/feature/tasks/tasks-api" />
+            <option value="$PROJECT_DIR$/feature/tasks/tasks-impl" />
             <option value="$PROJECT_DIR$/feature/test" />
           </set>
         </option>
