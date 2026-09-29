@@ -8,11 +8,9 @@ import kz.zhb.prayer.api.model.PrayerDay
 import java.time.LocalDate
 
 internal data class TasksState(
-    /** Расписание на сегодня из БД; null — ещё ни разу не синхронизировали. */
     val city: String? = null,
     val prayerDay: PrayerDay? = null,
     val isSyncing: Boolean = false,
-    /** Синхронизация за этот запуск экрана уже прошла успешно. */
     val isSynced: Boolean = false,
     val error: String? = null,
 ) : State {

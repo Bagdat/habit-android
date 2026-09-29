@@ -2,6 +2,7 @@ package kz.zhb.prayer.impl.local
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kz.zhb.database.prayer.PrayerDao
 import kz.zhb.database.prayer.PrayerLocationEntity
 import kz.zhb.database.prayer.PrayerTimeEntity
@@ -42,6 +43,8 @@ internal class PrayerLocalDataSourceImpl(private val dao: PrayerDao) : PrayerLoc
             if (day == null || location == null) null
             else PrayerDaySchedule(city = location.cityTitle, day = day.toDomain())
         }
+            // Room шлёт на каждое изменение таблицы (например, обновили только точку GPS) — одинаковые пропускаем
+            .distinctUntilChanged()
 }
 
 private fun PrayerLocationEntity.toDomain() = SavedPrayerLocation(cityId, cityTitle, requestLat, requestLng, year)

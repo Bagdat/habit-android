@@ -9,7 +9,6 @@ import kz.zhb.prayer.api.usecase.ObservePrayerDayUseCase
 import kz.zhb.prayer.api.usecase.SyncPrayerScheduleUseCase
 import java.time.LocalDate
 
-/** Экран читает расписание только из БД; сеть лишь обновляет БД через синхронизацию. */
 internal class TasksViewModel(
     private val syncPrayerSchedule: SyncPrayerScheduleUseCase,
     private val observePrayerDay: ObservePrayerDayUseCase,

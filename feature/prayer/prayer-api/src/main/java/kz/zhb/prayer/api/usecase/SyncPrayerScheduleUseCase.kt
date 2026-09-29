@@ -8,6 +8,5 @@ import kz.zhb.network.api.AsyncResult
  * или пользователь заметно сместился и ближайший город сменился. Данные читать через [ObservePrayerDayUseCase].
  */
 interface SyncPrayerScheduleUseCase {
-    /** lat/lng — любые координаты (например, с GPS): ближайший населённый пункт определяется сам. */
     operator fun invoke(lat: Double, lng: Double): Flow<AsyncResult<Unit>>
 }

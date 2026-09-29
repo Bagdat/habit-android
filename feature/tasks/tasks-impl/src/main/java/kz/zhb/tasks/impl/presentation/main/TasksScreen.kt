@@ -56,7 +56,6 @@ internal fun TasksScreen(viewModel: TasksViewModel = koinViewModel()) {
     ) {
         Text("Tasks", style = MaterialTheme.typography.headlineMedium)
 
-        // Расписание из БД показываем всегда, даже без доступа к геолокации и без сети
         PrayerSchedule(state, isLocationGranted = location.isGranted, onRetry = { attempt++ })
         if (!location.isGranted) LocationPermission(location)
     }
@@ -76,7 +75,6 @@ private fun PrayerSchedule(state: TasksState, isLocationGranted: Boolean, onRetr
             PrayerRow("Иша", day.isha)
         }
 
-        // Без доступа к геолокации синхронизировать нечем — ниже просьба о доступе
         !isLocationGranted -> Unit
 
         state.error != null && !state.isSyncing -> {
@@ -84,7 +82,6 @@ private fun PrayerSchedule(state: TasksState, isLocationGranted: Boolean, onRetr
             Button(onClick = onRetry) { Text("Повторить") }
         }
 
-        // Первая синхронизация: ищем координаты или качаем расписание
         else -> CircularProgressIndicator()
     }
 }
