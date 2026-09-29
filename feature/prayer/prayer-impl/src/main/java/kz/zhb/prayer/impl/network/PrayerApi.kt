@@ -9,7 +9,7 @@ import retrofit2.http.Query
 internal interface PrayerApi {
 
     /** Ближайшие к точке населённые пункты (~30 км), первый — самый близкий. */
-    @GET("/cities/")
+    @GET("cities/")
     suspend fun getNearestCities(
         @Query("lat") lat: Double,
         @Query("lng") lng: Double,
@@ -17,7 +17,7 @@ internal interface PrayerApi {
     ): Response<CitiesResponse>
 
     /** Работает только с координатами города из /cities, в точности как там записаны. */
-    @GET("/prayer-times/{year}/{lat}/{lng}")
+    @GET("prayer-times/{year}/{lat}/{lng}")
     suspend fun getSchedulers(
         @Path("year") year: Int,
         @Path("lat") lat: String,

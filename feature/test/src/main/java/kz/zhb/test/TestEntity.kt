@@ -10,7 +10,7 @@ import kz.zhb.test.list.ListScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
-fun EntryProviderScope<NavKey>.counterEntity(navigator: Navigator) {
+fun EntryProviderScope<NavKey>.testEntity(navigator: Navigator) {
     entry<TestKey> {
         CounterScreen { navigator.navigate(ListKey) }
     }

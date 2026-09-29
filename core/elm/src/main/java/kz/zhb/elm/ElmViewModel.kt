@@ -4,12 +4,15 @@ import androidx.annotation.MainThread
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -41,16 +44,23 @@ abstract class ElmViewModel<Ev : Event, S : State, Ef : Effect, C : Command>(ini
     /** Команда с ключом отменяет предыдущую команду с тем же ключом (например, повторная загрузка). */
     protected open fun keyOf(command: C): Any? = null
 
-    /** Хук для логирования переходов. */
+    /** Хук на каждый переход (например, для аналитики). Логирование делает сам ElmViewModel. */
     protected open fun onTransition(event: Ev, oldState: S, reducer: Update<S, Ef, C>) = Unit
+
+    private val tag: String = this::class.simpleName ?: "Elm"
 
     @MainThread
     fun accept(event: Ev) {
+        Elm.logger?.debug(tag, "New event: $event")
         val oldState = _state.value
         val reducer = Update<S, Ef, C>(oldState).apply { reduce(event) }
         _state.value = reducer.state
+        if (reducer.state != oldState) Elm.logger?.debug(tag, "New state: ${reducer.state}")
         onTransition(event, oldState, reducer)
-        reducer.effects.forEach { _effects.trySend(it) }
+        reducer.effects.forEach { effect ->
+            Elm.logger?.debug(tag, "New effect: $effect")
+            _effects.trySend(effect)
+        }
         reducer.commands.forEach(::launchCommand)
     }
 
@@ -60,7 +70,15 @@ abstract class ElmViewModel<Ev : Event, S : State, Ef : Effect, C : Command>(ini
 
         // viewModelScope работает на Main.immediate, поэтому accept() вызывается на главном потоке
         val job = viewModelScope.launch {
-            execute(command).collect { accept(it) }
+            Elm.logger?.debug(tag, "Executing command: $command")
+            execute(command)
+                .onEach { Elm.logger?.debug(tag, "Command $command produces event $it") }
+                // Как в Elmslie: ошибка команды логируется, а не роняет приложение
+                .catch { error ->
+                    if (error is CancellationException) throw error
+                    Elm.logger?.error(tag, "Unhandled exception inside the command $command", error)
+                }
+                .collect { accept(it) }
         }
 
         if (key != null) {

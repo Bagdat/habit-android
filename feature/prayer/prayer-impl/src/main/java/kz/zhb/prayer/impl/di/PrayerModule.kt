@@ -2,6 +2,7 @@ package kz.zhb.prayer.impl.di
 
 import kz.zhb.network.api.ApiCreator
 import kz.zhb.prayer.api.usecase.GetSchedulersUseCase
+import kz.zhb.prayer.impl.BuildConfig
 import kz.zhb.prayer.impl.network.PrayerApi
 import kz.zhb.prayer.impl.repository.PrayerRepository
 import kz.zhb.prayer.impl.repository.PrayerRepositoryImpl
@@ -15,7 +16,7 @@ val PrayerModule = module {
         val apiCreator = get<ApiCreator>()
         apiCreator.create(
             api = PrayerApi::class.java,
-            baseUrl = "https://api.muftyat.kz"
+            baseUrl = BuildConfig.MUFTYAT_BASE_URL
         )
     }
 

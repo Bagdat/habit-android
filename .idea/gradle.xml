@@ -37,6 +37,9 @@
             <option value="$PROJECT_DIR$/feature/onboarding" />
             <option value="$PROJECT_DIR$/feature/onboarding/onboarding-api" />
             <option value="$PROJECT_DIR$/feature/onboarding/onboarding-impl" />
+            <option value="$PROJECT_DIR$/feature/prayer" />
+            <option value="$PROJECT_DIR$/feature/prayer/prayer-api" />
+            <option value="$PROJECT_DIR$/feature/prayer/prayer-impl" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/splash/splash-api" />
             <option value="$PROJECT_DIR$/feature/splash/splash-impl" />

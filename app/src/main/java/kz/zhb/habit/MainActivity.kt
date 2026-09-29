@@ -7,7 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import kz.zhb.habit.ui.theme.HabitandroidTheme
 import kz.zhb.navigation.NavigationHost
 import kz.zhb.test.ListKey
-import kz.zhb.test.counterEntity
+import kz.zhb.test.TestKey
+import kz.zhb.test.testEntity
 
 class MainActivity : ComponentActivity() {
 
@@ -18,8 +19,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             HabitandroidTheme {
-                NavigationHost(start = ListKey) { navigator ->
-                    counterEntity(navigator)
+                NavigationHost(start = TestKey) { navigator ->
+                    testEntity(navigator)
                 }
             }
         }

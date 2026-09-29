@@ -11,6 +11,7 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
 
+    implementation(project(":core:elm"))
     implementation(project(":core:navigation"))
     implementation(project(":core:network:network-impl"))
 

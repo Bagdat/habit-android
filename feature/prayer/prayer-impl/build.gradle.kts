@@ -7,6 +7,10 @@ plugins {
 
 android {
     namespace = "kz.zhb.prayer.impl"
+
+    defaultConfig {
+        buildConfigField("String", "MUFTYAT_BASE_URL", "\"https://api.muftyat.kz/\"")
+    }
 }
 
 dependencies {
