@@ -1,6 +1,7 @@
 package kz.zhb.prayer.impl.network
 
 import kz.zhb.prayer.impl.model.CitiesResponse
+import kz.zhb.prayer.impl.model.PrayerTimesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -22,5 +23,5 @@ internal interface PrayerApi {
         @Path("year") year: Int,
         @Path("lat") lat: String,
         @Path("lng") lng: String
-    ): Response<Unit>
+    ): Response<PrayerTimesResponse>
 }

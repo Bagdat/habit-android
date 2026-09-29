@@ -14,4 +14,6 @@ android {
 dependencies {
     implementation(project(":core:elm"))
     implementation(project(":core:permissions"))
+
+    implementation(project(":feature:prayer:prayer-api"))
 }

@@ -5,11 +5,16 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import kz.zhb.network.api.AsyncResult
+import kz.zhb.prayer.api.model.PrayerDay
 import kz.zhb.prayer.impl.model.City
 import kz.zhb.prayer.impl.repository.PrayerRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.time.LocalDate
+import java.time.LocalTime
+
+private val day = LocalTime.of(12, 0).let { t -> PrayerDay(LocalDate.of(2026, 9, 29), t, t, t, t, t, t) }
 
 class GetSchedulersUseCaseImplTest {
 
@@ -20,9 +25,9 @@ class GetSchedulersUseCaseImplTest {
 
         override fun getNearestCities(lat: Double, lng: Double): Flow<AsyncResult<List<City>>> = flowOf(cities)
 
-        override fun getSchedulers(year: Int, lat: String, lng: String): Flow<AsyncResult<Unit>> {
+        override fun getSchedulers(year: Int, lat: String, lng: String): Flow<AsyncResult<List<PrayerDay>>> {
             schedulerRequests += lat to lng
-            return flowOf(AsyncResult.Success(Unit))
+            return flowOf(AsyncResult.Success(listOf(day)))
         }
     }
 
@@ -36,7 +41,9 @@ class GetSchedulersUseCaseImplTest {
         val result = GetSchedulersUseCaseImpl(repository)(43.240330, 76.944488).toList()
 
         assertEquals(listOf("43.238293" to "76.945465"), repository.schedulerRequests)
-        assertTrue(result.single() is AsyncResult.Success)
+        val schedule = (result.single() as AsyncResult.Success).data
+        assertEquals("Алматы қаласы", schedule.city)
+        assertEquals(listOf(day), schedule.days)
     }
 
     @Test

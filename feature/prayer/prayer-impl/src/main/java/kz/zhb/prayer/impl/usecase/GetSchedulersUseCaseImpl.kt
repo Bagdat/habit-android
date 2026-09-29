@@ -2,9 +2,11 @@ package kz.zhb.prayer.impl.usecase
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kz.zhb.network.api.AsyncResult
+import kz.zhb.prayer.api.model.PrayerSchedule
 import kz.zhb.prayer.api.usecase.GetSchedulersUseCase
 import kz.zhb.prayer.impl.repository.PrayerRepository
 import java.time.LocalDate
@@ -16,7 +18,7 @@ import java.time.LocalDate
 internal class GetSchedulersUseCaseImpl(private val repository: PrayerRepository) :
     GetSchedulersUseCase {
 
-    override fun invoke(lat: Double, lng: Double): Flow<AsyncResult<Unit>> = flow {
+    override fun invoke(lat: Double, lng: Double): Flow<AsyncResult<PrayerSchedule>> = flow {
         when (val cities = repository.getNearestCities(lat, lng).first()) {
             is AsyncResult.Failure -> emit(cities)
             is AsyncResult.Success -> {
@@ -24,7 +26,14 @@ internal class GetSchedulersUseCaseImpl(private val repository: PrayerRepository
                 if (city == null) {
                     emit(AsyncResult.Failure("Рядом нет населённого пункта из справочника"))
                 } else {
-                    emitAll(repository.getSchedulers(LocalDate.now().year, city.lat, city.lng))
+                    emitAll(
+                        repository.getSchedulers(LocalDate.now().year, city.lat, city.lng).map { result ->
+                            when (result) {
+                                is AsyncResult.Success -> AsyncResult.Success(PrayerSchedule(city.title, result.data))
+                                is AsyncResult.Failure -> result
+                            }
+                        }
+                    )
                 }
             }
         }
